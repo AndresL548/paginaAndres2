@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galería de Imágenes</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .contenido {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 60px);
+            /* Ajusta esto si tu navbar tiene otra altura */
+        }
+
+        .galeria {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .galeria img {
+            width: 250px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .galeria img.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="navbar"></div>
+    <h1>CHISPAS</h1>
+    <main class="contenido">
+        
+        <div class="galeria" id="galeria">
+            <img src="img/c1.jpg" class="active" />
+            <img src="img/c2.jpg" />
+            <img src="img/c3.jpg" />
+            <img src="img/c4.jpg" />
+            <img src="img/c5.jpg" />
+        </div>
+    </main>
+
+    <script>
+        // Cargar la navbar externa
+        fetch('navbar.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+
+                // Activar el botón del menú después de cargar la navbar
+                const toggleBtn = document.getElementById('menu-toggle');
+                const navLinks = document.getElementById('nav-links');
+                if (toggleBtn) {
+                    toggleBtn.addEventListener('click', () => {
+                        navLinks.classList.toggle('show');
+                    });
+                }
+            });
+        const images = document.querySelectorAll('.galeria img');
+        let currentIndex = 0;
+
+        setInterval(() => {
+            images.forEach(img => img.classList.remove('active'));
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }, 2000);
+    </script>
+</body>
+
+</html>
